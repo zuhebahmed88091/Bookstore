@@ -1,27 +1,18 @@
 import './App.css';
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Bookshelf from './components/bookShelf';
+import Nav from './components/nav';
+import Categories from './components/categories';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit
-          {' '}
-          <code>src/App.js</code>
-          {' '}
-          and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => (
+  <BrowserRouter>
+    <Nav />
+    <Routes>
+      <Route path="/" element={<Bookshelf />} />
+      <Route path="/categories" element={<Categories />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;
