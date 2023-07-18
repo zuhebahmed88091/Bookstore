@@ -1,31 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Book from './book';
 import BookAdd from './bookAdd';
 
 const BookLists = () => {
-  const books = [
-    {
-      title: 'The Lord of the rings',
-      author: 'J.R.R. Tolkien',
-      id: 1,
-    },
-    {
-      title: 'A song of ice and fire',
-      author: 'George R. R. Martin',
-      id: 2,
-    },
-    {
-      title: 'Harry Potter Series',
-      author: 'J. K. Rowling',
-      id: 3,
-    },
-  ];
+  const bookLists = useSelector((store) => store.books.books);
+
+  const addToLocalStorage = (books) => {
+    localStorage.setItem('Getbooks', JSON.stringify(books));
+  };
+
+  useEffect(() => {
+    addToLocalStorage(bookLists);
+  }, [bookLists]);
 
   return (
     <section>
       <ul>
-        {books.map((book) => (
-          <Book key={book.id} title={book.title} author={book.author} />
+        {bookLists.map((book) => (
+          <Book key={book.item_id} singleBook={book} />
         ))}
       </ul>
       <BookAdd />
