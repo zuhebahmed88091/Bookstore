@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addBook } from '../redux/books/booksSlice';
+import Button from './button';
 
 const BookAdd = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ const BookAdd = () => {
         onChange={(e) => setCategory(e.target.value)}
         placeholder="Category"
       />
-      <button type="submit" onClick={handleAddBook} className="add-btn">Add Book</button>
+      <Button className="add-btn" onClick={handleAddBook} label="Add Book" />
     </form>
   );
 };
