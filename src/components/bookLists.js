@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { getApiBooks } from '../redux/books/booksSlice';
 import Book from './book';
-import BookAdd from './bookAdd';
+// import BookAdd from './bookAdd';
 
 const BookLists = () => {
+  const dispatch = useDispatch();
   const bookLists = useSelector((store) => store.books.books);
-
-  const addToLocalStorage = (books) => {
-    localStorage.setItem('Getbooks', JSON.stringify(books));
-  };
+  const isLoading = useSelector((store) => store.books.isLoading);
 
   useEffect(() => {
-    addToLocalStorage(bookLists);
-  }, [bookLists]);
+    dispatch(getApiBooks);
+  }, [dispatch]);
 
   return (
     <section>
-      <ul>
-        {bookLists.map((book) => (
-          <Book key={book.item_id} singleBook={book} />
-        ))}
-      </ul>
-      <BookAdd />
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : (
+        <ul>
+          {bookLists.map((book) => (
+            <Book key={book.item_id} singleBook={book} />
+          ))}
+        </ul>
+      )}
+      {/* <BookAdd /> */}
     </section>
   );
 };
