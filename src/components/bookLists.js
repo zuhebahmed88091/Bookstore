@@ -2,29 +2,37 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApiBooks } from '../redux/books/booksSlice';
 import Book from './book';
-// import BookAdd from './bookAdd';
+import BookAdd from './bookAdd';
 
 const BookLists = () => {
   const dispatch = useDispatch();
-  const bookLists = useSelector((store) => store.books.books);
-  const isLoading = useSelector((store) => store.books.isLoading);
+  const { books, isLoading } = useSelector((store) => store.books);
 
   useEffect(() => {
-    dispatch(getApiBooks);
+    dispatch(getApiBooks());
   }, [dispatch]);
+
+  const Allbooks = Object.entries(books).reduce((bookarray, [id, listitem]) => {
+    const booksWithId = listitem.map((book) => ({ ...book, id }));
+    return [...bookarray, ...booksWithId];
+  }, []);
 
   return (
     <section>
       {isLoading ? (
-        <p>Loading...</p>
+        <p>
+          Loading...
+        </p>
       ) : (
-        <ul>
-          {bookLists.map((book) => (
-            <Book key={book.item_id} singleBook={book} />
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {Allbooks.map((book) => (
+              <Book key={book.id} singleBook={book} />
+            ))}
+          </ul>
+          <BookAdd />
+        </div>
       )}
-      {/* <BookAdd /> */}
     </section>
   );
 };
