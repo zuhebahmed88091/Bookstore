@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addBook } from '../redux/books/booksSlice';
+import { getApiBooks, postApiBooks } from '../redux/books/booksSlice';
 import Button from './button';
 
 const BookAdd = () => {
@@ -9,13 +9,15 @@ const BookAdd = () => {
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState('');
 
-  const handleAddBook = (e) => {
-    e.preventDefault();
+  const handleAddBook = async (event) => {
+    event.preventDefault();
     if (!title.trim() || !author.trim() || !category.trim()) return;
-    dispatch(addBook({ title, author, category }));
+
+    await dispatch(postApiBooks([title, author, category]));
     setTitle('');
     setAuthor('');
     setCategory('');
+    await dispatch(getApiBooks());
   };
 
   return (

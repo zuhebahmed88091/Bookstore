@@ -1,49 +1,78 @@
-import { createSlice } from '@reduxjs/toolkit';
-import Initialbooks from './initial';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { v4 as uuid } from 'uuid';
+import axios from 'axios';
+import apiUrl from './initial';
 
-const getNextItemId = (books) => {
-  const maxId = Math.max(
-    ...books.map((book) => Number(book.item_id.replace('item', ''))),
-  );
-  return `item${maxId + 1}`;
+const initialState = {
+  books: [],
+  isLoading: false,
 };
 
-const storeAllBooks = () => {
-  const localBooks = localStorage.getItem('Getbooks');
-  const fromLocalBooks = JSON.parse(localBooks);
+const getApiBooks = createAsyncThunk('books/getApiBooks', async () => {
+  const response = await axios(apiUrl);
+  return response.data;
+});
 
-  if (localBooks && fromLocalBooks.length !== 0) {
-    return fromLocalBooks;
-  }
-  return Initialbooks;
-};
+const postApiBooks = createAsyncThunk('books/postBooks', async ([title, author, category]) => {
+  const newBook = {
+    item_id: uuid(),
+    title,
+    author,
+    category,
+  };
+
+  const response = await axios.post(apiUrl, newBook);
+  return response.data;
+});
+
+const removeBookFromApi = createAsyncThunk('books/removeBook', async (bookId) => {
+  const response = await axios.delete(`${apiUrl}/${bookId}`);
+  return response.data;
+});
 
 const booksSlice = createSlice({
   name: 'books',
-  initialState: {
-    books: storeAllBooks(),
-  },
-  reducers: {
-    addBook: (state, action) => {
-      const { title, author, category } = action.payload;
-      const newBook = {
-        item_id: getNextItemId(state.books),
-        title,
-        author,
-        category,
-      };
-      state.books = [...state.books, newBook];
-    },
-    removeBooks: (state, action) => {
-      const itemId = action.payload;
-      const stateUpdated = { ...state };
-      stateUpdated.books = state.books.filter(
-        (book) => book.item_id !== itemId,
-      );
-      return stateUpdated;
-    },
+  initialState,
+  extraReducers: (builder) => {
+    builder.addCase(getApiBooks.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(getApiBooks.fulfilled, (state, action) => ({
+      ...state,
+      isLoading: false,
+      books: action.payload,
+    }));
+    builder.addCase(getApiBooks.rejected, (state) => ({
+      ...state,
+      isLoading: false,
+    }));
+    builder.addCase(postApiBooks.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(postApiBooks.fulfilled, (state) => ({
+      ...state,
+      isLoading: false,
+    }));
+    builder.addCase(postApiBooks.rejected, (state) => ({
+      ...state,
+      isLoading: false,
+    }));
+    builder.addCase(removeBookFromApi.pending, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(removeBookFromApi.fulfilled, (state) => ({
+      ...state,
+      isLoading: true,
+    }));
+    builder.addCase(removeBookFromApi.rejected, (state) => ({
+      ...state,
+      isLoading: false,
+    }));
   },
 });
 
 export const booksReducer = booksSlice.reducer;
-export const { addBook, removeBooks } = booksSlice.actions;
+export { getApiBooks, postApiBooks, removeBookFromApi };
