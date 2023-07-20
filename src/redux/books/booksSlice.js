@@ -13,12 +13,12 @@ const getApiBooks = createAsyncThunk('books/getApiBooks', async () => {
   return response.data;
 });
 
-const postApiBooks = createAsyncThunk('books/postBooks', async (book) => {
+const postApiBooks = createAsyncThunk('books/postBooks', async ([title, author, category]) => {
   const newBook = {
     item_id: uuid(),
-    title: book[0],
-    author: book[1],
-    category: book[2],
+    title,
+    author,
+    category,
   };
 
   const response = await axios.post(apiUrl, newBook);
@@ -65,7 +65,7 @@ const booksSlice = createSlice({
     }));
     builder.addCase(removeBookFromApi.fulfilled, (state) => ({
       ...state,
-      isLoading: false,
+      isLoading: true,
     }));
     builder.addCase(removeBookFromApi.rejected, (state) => ({
       ...state,

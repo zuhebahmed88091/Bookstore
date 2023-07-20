@@ -12,10 +12,7 @@ const BookLists = () => {
     dispatch(getApiBooks());
   }, [dispatch]);
 
-  const Allbooks = Object.entries(books).reduce((bookarray, [id, listitem]) => {
-    const booksWithId = listitem.map((book) => ({ ...book, id }));
-    return [...bookarray, ...booksWithId];
-  }, []);
+  const booksArr = Object.keys(books).flatMap((id) => books[id].map((book) => ({ ...book, id })));
 
   return (
     <section>
@@ -26,7 +23,7 @@ const BookLists = () => {
       ) : (
         <div>
           <ul>
-            {Allbooks.map((book) => (
+            {booksArr.map((book) => (
               <Book key={book.id} singleBook={book} />
             ))}
           </ul>

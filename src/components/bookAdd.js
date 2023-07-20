@@ -13,13 +13,11 @@ const BookAdd = () => {
     event.preventDefault();
     if (!title.trim() || !author.trim() || !category.trim()) return;
 
-    try {
-      await dispatch(postApiBooks([title, author, category]));
-      setTitle('');
-      setAuthor('');
-      setCategory('');
-      await dispatch(getApiBooks());
-    } catch (error) { console.error(error); }
+    await dispatch(postApiBooks([title, author, category]));
+    setTitle('');
+    setAuthor('');
+    setCategory('');
+    await dispatch(getApiBooks());
   };
 
   return (

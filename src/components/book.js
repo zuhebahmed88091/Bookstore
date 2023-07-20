@@ -7,12 +7,8 @@ import Button from './button';
 const Book = ({ singleBook }) => {
   const dispatch = useDispatch();
   const handleRemove = async () => {
-    try {
-      await dispatch(removeBookFromApi(singleBook.id));
-      await dispatch(getApiBooks());
-    } catch (error) {
-      console.error(error);
-    }
+    await dispatch(removeBookFromApi(singleBook.id));
+    await dispatch(getApiBooks());
   };
   return (
     <section className="list-wrap">
