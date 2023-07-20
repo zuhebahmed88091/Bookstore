@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getApiBooks } from '../redux/books/booksSlice';
 import Book from './book';
 import BookAdd from './bookAdd';
+import './styles/bookLists.css';
 
 const BookLists = () => {
   const dispatch = useDispatch();
@@ -15,14 +16,14 @@ const BookLists = () => {
   const booksArr = Object.keys(books).flatMap((id) => books[id].map((book) => ({ ...book, id })));
 
   return (
-    <section>
+    <section className="booklists-container">
       {isLoading ? (
-        <p>
-          Loading...
-        </p>
+        <div className="loading-wrap">
+          <div className="loading" />
+        </div>
       ) : (
-        <div>
-          <ul>
+        <div className="ul-container">
+          <ul className="book-ul">
             {booksArr.map((book) => (
               <Book key={book.id} singleBook={book} />
             ))}
