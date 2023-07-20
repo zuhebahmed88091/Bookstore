@@ -1,5 +1,5 @@
 import React from 'react';
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ const Book = ({ singleBook }) => {
     await dispatch(removeBookFromApi(singleBook.id));
     await dispatch(getApiBooks());
   };
+  const progressBarColor = '#307bbe';
   return (
     <li className="list-wrap">
       <article className="book-details">
@@ -31,7 +32,15 @@ const Book = ({ singleBook }) => {
       </article>
       <article className="progressbar-wrap">
         <div className="circle-bar">
-          <CircularProgressbar value={45} />
+          <CircularProgressbar
+            value={45}
+            styles={buildStyles({
+              pathColor: progressBarColor,
+              trailColor: '#e8e8e8', // Replace with your desired trail color
+              textColor: progressBarColor, // Replace with your desired text color
+            })}
+          />
+          {/* <CircularProgressbar value={45} /> */}
         </div>
         <div className="progress-details">
           <p className="bar-percentage">45%</p>

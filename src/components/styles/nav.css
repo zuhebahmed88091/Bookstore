@@ -28,17 +28,40 @@
 
 .links {
   text-decoration: none;
+  opacity: 0.5;
   font-family: "Montserrat", sans-serif;
   font-size: 0.813rem;
   color: #121212;
   letter-spacing: 1.9px;
 }
 
-.profile-icon {
+.active-links {
+  opacity: 1;
+  color: #121212;
+}
+
+.profile-wrap {
+  cursor: pointer;
   width: 2.813rem;
   height: 2.813rem;
   border-radius: 50%;
   border: 1px solid #e8e8e8;
   background-color: #fff;
-  color: #0090ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-icon {
+  font-size: 24px;
+  line-height: 1;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+}
+
+.primary-color {
+  color: #0290ff;
 }
