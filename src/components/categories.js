@@ -1,7 +1,8 @@
 import React from 'react';
+import './styles/categories.css';
 
 const Categories = () => (
-  <div>Categories page</div>
+  <h1 className="categories">Categories page</h1>
 );
 
 export default Categories;
