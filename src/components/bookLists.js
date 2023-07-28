@@ -1,35 +1,36 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getApiBooks } from '../redux/books/booksSlice';
 import Book from './book';
 import BookAdd from './bookAdd';
+import './styles/bookLists.css';
 
 const BookLists = () => {
-  const books = [
-    {
-      title: 'The Lord of the rings',
-      author: 'J.R.R. Tolkien',
-      id: 1,
-    },
-    {
-      title: 'A song of ice and fire',
-      author: 'George R. R. Martin',
-      id: 2,
-    },
-    {
-      title: 'Harry Potter Series',
-      author: 'J. K. Rowling',
-      id: 3,
-    },
-  ];
+  const dispatch = useDispatch();
+  const { books, isLoading } = useSelector((store) => store.books);
+
+  useEffect(() => {
+    dispatch(getApiBooks());
+  }, [dispatch]);
+
+  const booksArr = Object.keys(books).flatMap((id) => books[id].map((book) => ({ ...book, id })));
 
   return (
-    <section>
-      <ul>
-        {books.map((book) => (
-          <Book key={book.id} title={book.title} author={book.author} />
-        ))}
-        ;
-      </ul>
-      <BookAdd />
+    <section className="booklists-container">
+      {isLoading ? (
+        <div className="loading-wrap">
+          <div className="loading" />
+        </div>
+      ) : (
+        <div className="ul-container">
+          <ul className="book-ul">
+            {booksArr.map((book) => (
+              <Book key={book.id} singleBook={book} />
+            ))}
+          </ul>
+          <BookAdd />
+        </div>
+      )}
     </section>
   );
 };
