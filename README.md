@@ -68,7 +68,7 @@
 
 ## 🚀 Live Demo <a name="live-demo"></a>
 
-- [Live Demo Link](Not yet deployed)
+- [Live Demo Link](https://bookstore-5p2j.onrender.com)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
