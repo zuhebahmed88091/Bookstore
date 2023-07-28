@@ -1,0 +1,25 @@
+.loading-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40vh;
+}
+
+@keyframes spinning {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading {
+  width: 3rem;
+  height: 3rem;
+  border: 1rem solid #f3f3f3;
+  border-top: 1rem solid #3498db;
+  border-radius: 50%;
+  animation: spinning 1s ease-in infinite;
+}
