@@ -65,3 +65,22 @@
 .primary-color {
   color: #0290ff;
 }
+
+@media only screen and (max-width: 768px) {
+  .nav-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    gap: 0rem;
+  }
+
+  .nav-heading {
+    font-size: 1rem;
+  }
+
+  .nav-ul {
+    flex-grow: 0;
+    grid-gap: 0.5rem;
+    gap: 0.5rem;
+    padding-inline-start: 0px;
+  }
+}
